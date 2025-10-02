@@ -1,33 +1,33 @@
 \relax 
 \citation{github}
 \citation{engelbrecht2001}
-\citation{lewis1994sequential}
 \@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {II}Background}{1}{}\protected@file@percent }
 \newlabel{B}{{II}{1}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Active Learning}{1}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Uncertainty Sampling}{1}{}\protected@file@percent }
+\citation{lewis1994sequential}
 \citation{sharma2017}
-\citation{engelbrecht2001}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Uncertainty Sampling}{2}{}\protected@file@percent }
 \@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Pool-Based Active Learning}}{2}{}\protected@file@percent }
 \newlabel{alg:pool}{{1}{2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}Sensitivity Analysis}{2}{}\protected@file@percent }
+\citation{engelbrecht2001}
 \citation{paszke2019pytorch}
 \@writefile{toc}{\contentsline {section}{\numberline {III}Implementation}{3}{}\protected@file@percent }
 \newlabel{I}{{III}{3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Neural Network}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Passive Learning}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Uncertainty Sampling}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}SASLA}{4}{}\protected@file@percent }
 \citation{breast}
 \citation{mobile}
 \citation{letter}
 \citation{boston}
 \citation{concrete}
 \citation{abalone}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Passive Learning}{4}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Uncertainty Sampling}{4}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}SASLA}{4}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {IV}Empirical Process}{4}{}\protected@file@percent }
-\newlabel{EP}{{IV}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Data Description and Pre-processing}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Empirical Process}{5}{}\protected@file@percent }
+\newlabel{EP}{{IV}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Data Description and Pre-processing}{5}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}1}Breast Cancer Wisconsin}{5}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}2}Mobile Price Classification}{5}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}3}Letter Recognition}{5}{}\protected@file@percent }
@@ -35,12 +35,12 @@
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}5}Concrete Compressive Strength}{5}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}6}Abalone Age}{5}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Hyper Parameter Tuning}{5}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Performance Metrics}{5}{}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces The hyper parameters for passive learning, uncertainty sampling and SASLA experiments}}{6}{}\protected@file@percent }
-\newlabel{tab:hyperparameters}{{I}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Performance Metrics}{6}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Statistical Tests}{6}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {V}Results \& Discussion}{6}{}\protected@file@percent }
 \newlabel{RD}{{V}{6}}
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces The hyper parameters for passive learning, uncertainty sampling and SASLA experiments}}{7}{}\protected@file@percent }
+\newlabel{tab:hyperparameters}{{I}{7}}
 \@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Classification results for each learning strategy}}{7}{}\protected@file@percent }
 \newlabel{tab:classification_results}{{II}{7}}
 \@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Regression results for each learning strategy}}{7}{}\protected@file@percent }
@@ -89,8 +89,6 @@
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(e)}{\ignorespaces {Concrete Compressive Strength}}}{8}{}\protected@file@percent }
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(f)}{\ignorespaces {Abalone Age Prediction}}}{8}{}\protected@file@percent }
 \newlabel{fig:sasla_selection_all}{{4}{8}}
-\bibcite{github}{1}
-\bibcite{lewis1994sequential}{2}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Critical difference plot for the average ranks of the learning algorithms performance for the classification problems}}{9}{}\protected@file@percent }
 \newlabel{fig:classification_cd}{{5}{9}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Critical difference plot for the average ranks of the learning algorithms performance for the regression problems}}{9}{}\protected@file@percent }
@@ -101,7 +99,8 @@
 \newlabel{tab:regression_wtl}{{V}{9}}
 \@writefile{toc}{\contentsline {section}{\numberline {VI}Conclusion}{9}{}\protected@file@percent }
 \newlabel{C}{{VI}{9}}
-\@writefile{toc}{\contentsline {section}{References}{9}{}\protected@file@percent }
+\bibcite{github}{1}
+\bibcite{lewis1994sequential}{2}
 \bibcite{lakshminarayanan2017}{3}
 \bibcite{sharma2017}{4}
 \bibcite{engelbrecht2001}{5}
@@ -112,4 +111,5 @@
 \bibcite{concrete}{10}
 \bibcite{abalone}{11}
 \bibcite{paszke2019pytorch}{12}
+\@writefile{toc}{\contentsline {section}{References}{10}{}\protected@file@percent }
 \gdef \@abspage@last{10}

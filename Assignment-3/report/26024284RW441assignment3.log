@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.4.21)  2 OCT 2025 11:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.4.21)  2 OCT 2025 23:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -372,188 +372,185 @@ e
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 50.
+
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+
+]
+LaTeX Font Info:    Trying to load font information for U+msa on input line 51.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 50.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 51.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
-
-
-] [2]
-Underfull \hbox (badness 10000) in paragraph at lines 133--134
-[]\OT1/ptm/m/n/10 The new sub-set of train-ing data $\OML/cmm/m/it/10 D[] \OT1/
-cmr/m/n/10 =
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 137--141
+) [2]
+Underfull \hbox (badness 10000) in paragraph at lines 134--138
 
  []
 
 [3] [4]
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 2
-02.
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 1
+99.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-)
-Overfull \hbox (1.1008pt too wide) in paragraph at lines 218--230
+) [5]
+Overfull \hbox (1.1008pt too wide) in paragraph at lines 215--227
  [][] 
  []
 
-[5] [6]
-<plots/classification_boxplots.pdf, id=36, 500.3404pt x 198.0198pt>
+[6]
+<plots/classification_boxplots.pdf, id=35, 500.3404pt x 198.0198pt>
 File: plots/classification_boxplots.pdf Graphic file (type pdf)
 <use plots/classification_boxplots.pdf>
 Package pdftex.def Info: plots/classification_boxplots.pdf  used on input line 
-316.
+313.
 (pdftex.def)             Requested size: 252.0pt x 99.73482pt.
-<plots/regression_boxplots.pdf, id=37, 500.72581pt x 198.0198pt>
+<plots/regression_boxplots.pdf, id=36, 500.72581pt x 198.0198pt>
 File: plots/regression_boxplots.pdf Graphic file (type pdf)
 <use plots/regression_boxplots.pdf>
-Package pdftex.def Info: plots/regression_boxplots.pdf  used on input line 325.
+Package pdftex.def Info: plots/regression_boxplots.pdf  used on input line 322.
 
 (pdftex.def)             Requested size: 252.0pt x 99.65627pt.
-<plots/breast_cancer_uncertainty_sampling.pdf, id=38, 222.35713pt x 162.07031pt
+ [7 <./plots/classification_boxplots.pdf> <./plots/regression_boxplots.pdf>]
+<plots/breast_cancer_uncertainty_sampling.pdf, id=72, 222.35713pt x 162.07031pt
 >
 File: plots/breast_cancer_uncertainty_sampling.pdf Graphic file (type pdf)
 <use plots/breast_cancer_uncertainty_sampling.pdf>
 Package pdftex.def Info: plots/breast_cancer_uncertainty_sampling.pdf  used on 
-input line 337.
+input line 334.
 (pdftex.def)             Requested size: 113.39923pt x 82.65475pt.
-<plots/mobile_pricing_uncertainty_sampling.pdf, id=39, 222.35713pt x 162.07031p
+<plots/mobile_pricing_uncertainty_sampling.pdf, id=73, 222.35713pt x 162.07031p
 t>
 File: plots/mobile_pricing_uncertainty_sampling.pdf Graphic file (type pdf)
 <use plots/mobile_pricing_uncertainty_sampling.pdf>
 Package pdftex.def Info: plots/mobile_pricing_uncertainty_sampling.pdf  used on
- input line 342.
+ input line 339.
 (pdftex.def)             Requested size: 113.39923pt x 82.65475pt.
-<plots/letter_recognition_uncertainty_sampling.pdf, id=40, 222.35713pt x 162.07
+<plots/letter_recognition_uncertainty_sampling.pdf, id=74, 222.35713pt x 162.07
 031pt>
 File: plots/letter_recognition_uncertainty_sampling.pdf Graphic file (type pdf)
 
 <use plots/letter_recognition_uncertainty_sampling.pdf>
 Package pdftex.def Info: plots/letter_recognition_uncertainty_sampling.pdf  use
-d on input line 347.
+d on input line 344.
 (pdftex.def)             Requested size: 113.39923pt x 82.65475pt.
-<plots/boston_housing_uncertainty_sampling.pdf, id=41, 222.35713pt x 162.07031p
+<plots/boston_housing_uncertainty_sampling.pdf, id=75, 222.35713pt x 162.07031p
 t>
 File: plots/boston_housing_uncertainty_sampling.pdf Graphic file (type pdf)
 <use plots/boston_housing_uncertainty_sampling.pdf>
 Package pdftex.def Info: plots/boston_housing_uncertainty_sampling.pdf  used on
- input line 352.
+ input line 349.
 (pdftex.def)             Requested size: 113.39923pt x 82.65475pt.
-<plots/concrete_strength_uncertainty_sampling.pdf, id=42, 222.42442pt x 162.070
+<plots/concrete_strength_uncertainty_sampling.pdf, id=76, 222.42442pt x 162.070
 31pt>
 File: plots/concrete_strength_uncertainty_sampling.pdf Graphic file (type pdf)
 <use plots/concrete_strength_uncertainty_sampling.pdf>
 Package pdftex.def Info: plots/concrete_strength_uncertainty_sampling.pdf  used
- on input line 357.
+ on input line 354.
 (pdftex.def)             Requested size: 113.39923pt x 82.62755pt.
-<plots/abalone_age_uncertainty_sampling.pdf, id=43, 222.35713pt x 162.07031pt>
+<plots/abalone_age_uncertainty_sampling.pdf, id=77, 222.35713pt x 162.07031pt>
 File: plots/abalone_age_uncertainty_sampling.pdf Graphic file (type pdf)
 <use plots/abalone_age_uncertainty_sampling.pdf>
 Package pdftex.def Info: plots/abalone_age_uncertainty_sampling.pdf  used on in
-put line 362.
+put line 359.
 (pdftex.def)             Requested size: 113.39923pt x 82.65475pt.
-<plots/breast_cancer_sasla_selection.pdf, id=44, 222.35713pt x 162.70992pt>
+<plots/breast_cancer_sasla_selection.pdf, id=78, 222.35713pt x 162.70992pt>
 File: plots/breast_cancer_sasla_selection.pdf Graphic file (type pdf)
 <use plots/breast_cancer_sasla_selection.pdf>
 Package pdftex.def Info: plots/breast_cancer_sasla_selection.pdf  used on input
- line 375.
+ line 372.
 (pdftex.def)             Requested size: 113.39923pt x 82.98096pt.
-<plots/mobile_pricing_sasla_selection.pdf, id=45, 223.50719pt x 162.18523pt>
+<plots/mobile_pricing_sasla_selection.pdf, id=79, 223.50719pt x 162.18523pt>
 File: plots/mobile_pricing_sasla_selection.pdf Graphic file (type pdf)
 <use plots/mobile_pricing_sasla_selection.pdf>
 Package pdftex.def Info: plots/mobile_pricing_sasla_selection.pdf  used on inpu
-t line 380.
+t line 377.
 (pdftex.def)             Requested size: 113.39923pt x 82.2877pt.
-<plots/letter_recognition_sasla_selection.pdf, id=46, 224.10303pt x 162.18523pt
+<plots/letter_recognition_sasla_selection.pdf, id=80, 224.10303pt x 162.18523pt
 >
 File: plots/letter_recognition_sasla_selection.pdf Graphic file (type pdf)
 <use plots/letter_recognition_sasla_selection.pdf>
 Package pdftex.def Info: plots/letter_recognition_sasla_selection.pdf  used on 
-input line 385.
+input line 382.
 (pdftex.def)             Requested size: 113.39923pt x 82.06744pt.
-<plots/boston_housing_sasla_selection.pdf, id=47, 222.35713pt x 162.07031pt>
+<plots/boston_housing_sasla_selection.pdf, id=81, 222.35713pt x 162.07031pt>
 File: plots/boston_housing_sasla_selection.pdf Graphic file (type pdf)
 <use plots/boston_housing_sasla_selection.pdf>
 Package pdftex.def Info: plots/boston_housing_sasla_selection.pdf  used on inpu
-t line 390.
+t line 387.
 (pdftex.def)             Requested size: 113.39923pt x 82.65475pt.
-<plots/concrete_strength_sasla_selection.pdf, id=48, 222.35713pt x 162.07031pt>
+<plots/concrete_strength_sasla_selection.pdf, id=82, 222.35713pt x 162.07031pt>
 
 File: plots/concrete_strength_sasla_selection.pdf Graphic file (type pdf)
 <use plots/concrete_strength_sasla_selection.pdf>
 Package pdftex.def Info: plots/concrete_strength_sasla_selection.pdf  used on i
-nput line 395.
+nput line 392.
 (pdftex.def)             Requested size: 113.39923pt x 82.65475pt.
-<plots/abalone_age_sasla_selection.pdf, id=49, 222.35713pt x 162.07031pt>
+<plots/abalone_age_sasla_selection.pdf, id=83, 222.35713pt x 162.07031pt>
 File: plots/abalone_age_sasla_selection.pdf Graphic file (type pdf)
 <use plots/abalone_age_sasla_selection.pdf>
 Package pdftex.def Info: plots/abalone_age_sasla_selection.pdf  used on input l
-ine 400.
+ine 397.
 (pdftex.def)             Requested size: 113.39923pt x 82.65475pt.
- [7 <./plots/classification_boxplots.pdf> <./plots/regression_boxplots.pdf>]
-<plots/classification_critical_difference.pdf, id=84, 319.02975pt x 198.68375pt
->
+[8 <./plots/breast_cancer_uncertainty_sampling.pdf> <./plots/mobile_pricing_unc
+ertainty_sampling.pdf> <./plots/letter_recognition_uncertainty_sampling.pdf> <.
+/plots/boston_housing_uncertainty_sampling.pdf> <./plots/concrete_strength_unce
+rtainty_sampling.pdf> <./plots/abalone_age_uncertainty_sampling.pdf> <./plots/b
+reast_cancer_sasla_selection.pdf> <./plots/mobile_pricing_sasla_selection.pdf> 
+<./plots/letter_recognition_sasla_selection.pdf> <./plots/boston_housing_sasla_
+selection.pdf> <./plots/concrete_strength_sasla_selection.pdf> <./plots/abalone
+_age_sasla_selection.pdf>]
+<plots/classification_critical_difference.pdf, id=193, 319.02975pt x 198.68375p
+t>
 File: plots/classification_critical_difference.pdf Graphic file (type pdf)
 <use plots/classification_critical_difference.pdf>
 Package pdftex.def Info: plots/classification_critical_difference.pdf  used on 
-input line 413.
+input line 410.
 (pdftex.def)             Requested size: 252.0pt x 156.94327pt.
-<plots/regression_critical_difference.pdf, id=85, 319.02975pt x 198.68375pt>
+<plots/regression_critical_difference.pdf, id=194, 319.02975pt x 198.68375pt>
 File: plots/regression_critical_difference.pdf Graphic file (type pdf)
 <use plots/regression_critical_difference.pdf>
 Package pdftex.def Info: plots/regression_critical_difference.pdf  used on inpu
-t line 422.
+t line 419.
 (pdftex.def)             Requested size: 252.0pt x 156.94327pt.
- [8 <./plots/breast_cancer_uncertainty_sampling.pdf> <./plots/mobile_pricing_un
-certainty_sampling.pdf> <./plots/letter_recognition_uncertainty_sampling.pdf> <
-./plots/boston_housing_uncertainty_sampling.pdf> <./plots/concrete_strength_unc
-ertainty_sampling.pdf> <./plots/abalone_age_uncertainty_sampling.pdf> <./plots/
-breast_cancer_sasla_selection.pdf> <./plots/mobile_pricing_sasla_selection.pdf>
- <./plots/letter_recognition_sasla_selection.pdf> <./plots/boston_housing_sasla
-_selection.pdf> <./plots/concrete_strength_sasla_selection.pdf> <./plots/abalon
-e_age_sasla_selection.pdf>]
-Overfull \hbox (22.01294pt too wide) in paragraph at lines 475--476
+ [9 <./plots/classification_critical_difference.pdf> <./plots/regression_critic
+al_difference.pdf>]
+Overfull \hbox (22.01294pt too wide) in paragraph at lines 472--473
 \OT1/ptm/m/n/8 https://github.com/KellenMossner/MachineLearning441/tree/main/As
 signment-
  []
 
-[9 <./plots/classification_critical_difference.pdf> <./plots/regression_critica
-l_difference.pdf>]
-Underfull \hbox (badness 1596) in paragraph at lines 477--478
+
+Underfull \hbox (badness 1596) in paragraph at lines 474--475
 []\OT1/ptm/m/n/8 B. Lak-sh-mi-narayanan, A. Pritzel, and C. Blun-dell, ``Sim-pl
 e and
  []
 
 
-Underfull \hbox (badness 1939) in paragraph at lines 477--478
+Underfull \hbox (badness 1939) in paragraph at lines 474--475
 \OT1/ptm/m/n/8 scal-able pre-dic-tive un-cer-tainty es-ti-ma-tion us-ing deep e
 n-sem-bles,''
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 477--478
+Underfull \hbox (badness 10000) in paragraph at lines 474--475
 \OT1/ptm/m/it/8 arXiv preprint arXiv:1612.01474\OT1/ptm/m/n/8 , 2017. [On-line]
 . Avail-able:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 481--482
+Underfull \hbox (badness 10000) in paragraph at lines 478--479
 \OT1/ptm/m/n/8 Avail-able: https://www.kaggle.com/datasets/iabhishekofficial/mo
 bile-
  []
 
 
-Underfull \hbox (badness 4001) in paragraph at lines 485--486
+Underfull \hbox (badness 4001) in paragraph at lines 482--483
 []\OT1/ptm/m/n/8 W. Nash, T. Sell-ers, S. Tal-bot, A. Cawthorn, and W. Ford.
  []
 
@@ -568,38 +565,36 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[10
-
-] (./26024284RW441assignment3.aux) ) 
+[10] (./26024284RW441assignment3.aux) ) 
 Here is how much of TeX's memory you used:
  5985 strings out of 480171
  102017 string characters out of 5894489
- 410078 words of memory out of 5000000
+ 414078 words of memory out of 5000000
  23850 multiletter control sequences out of 15000+600000
  511771 words of font info for 112 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
- 55i,12n,63p,2043b,357s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dv
-ips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.
-pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></u
-sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy1
-0.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/sh
-are/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/t
-exmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/tim
-es/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-
-Output written on 26024284RW441assignment3.pdf (10 pages, 460118 bytes).
+ 55i,12n,63p,2003b,357s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texlive/texmf-dist/fonts/enc
+/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi
+12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/te
+xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+sy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pf
+b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/
+times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.p
+fb>
+Output written on 26024284RW441assignment3.pdf (10 pages, 462903 bytes).
 PDF statistics:
  291 PDF objects out of 1000 (max. 8388607)
  198 compressed objects within 2 object streams
