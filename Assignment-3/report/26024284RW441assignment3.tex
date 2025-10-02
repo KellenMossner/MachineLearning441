@@ -19,7 +19,7 @@
 \begin{document}
 	
 	\title{Machine Learning 441 Assignment 3: Active Learning in Neural Networks}
-	\author{\IEEEauthorblockN{KT M\"ossner}
+	\author{\IEEEauthorblockN{Kellen M\"ossner}
 		\IEEEauthorblockA{
 			26024284 \\
 			26024284@sun.ac.za}
@@ -31,7 +31,9 @@
 	\end{abstract}
 	
 	\section{Introduction}
-	Active learning is a supervised machine learning approach in which the learning algorithm has a varied degree of control over the input data that the neural network (NN) is trained on. 
+	Active learning is a supervised machine learning approach in which the learning algorithm has a varied degree of control over the input data that the neural network (NN) is trained on. Many active learning techniques follow the general approach of selecting instances for the training set that the NN has some difficulty classifying or predicting. Active learning allows the NN to select the most informative instances from a candidate pool of training instances. This approach has the benefit of potentially reducing the amount of data required to train the NN and subsequently be more computationally efficient.
+	
+	Traditional passive learning involves training NN models on a fixed subset of training data. The disadvantage of this approach is that it often leads to redundancy in training data and inefficiency in the training process. Active learning proposes to address these issues by dynamically updating the training set to focus on instances that contribute most to improved generalisation performance. This report explores, implements, evaluates and compares the two active learning strategies, uncertainty sampling and sensitivity analysis selective learning algorithm (SASLA) against the traditional passive learning approach for neural networks, applied to both classification and regression tasks of varying complexity.
 
 	This report is based on the implementation provided in \cite{github}, which contains the source code for Assignment 3.
 
@@ -44,7 +46,7 @@
 	The two main approaches to active learning, as outlined in \cite{engelbrecht2001}, are: \textit{incremental learning} and \textit{selective learning}. Incremental learning begins training on a subset of the training set and during training selects more subsets at specific intervals to add to the training set. The training set that the model is trained on continues to grow as more subsets are selected from the candidate sets. Once a subset has been selected it is removed from the candidate set. During incremental learning the size of the training set grows and the size of the candidate set shrinks after each iteration of the algorithm. At each selection interval of the selective learning process a new training subset is selected from the original candidate set. In contrast to incremental learning, selective learning does not remove the selected subsets from the candidate set. This allows for all observations to be selected at each selection interval. The currently selected subset is used to train the model until a convergence criteria met, such as the training loss stagnating. Once this criteria is met a new training subset is selected from the candidate set and the model continues to train on this new training dataset. This process is repeated until the model has converged or another stopping criterion has been met.
 	
 	\subsection{Uncertainty Sampling}
-	Uncertainty sampling selects instances for which the current NN is most uncertain how to label \cite{lewis1994sequential}. The instances that the NN is unsure about are the ones that lie close to or on the decision boundary for classification models and instances that have high prediction errors for regression models. The uncertainty for classification models can be measured in several methods. The first approach is to use the conditional entropy:
+	Uncertainty sampling (US) selects instances for which the current NN is most uncertain how to label \cite{lewis1994sequential}. The instances that the NN is unsure about are the ones that lie close to or on the decision boundary for classification models and instances that have high prediction errors for regression models. The uncertainty for classification models can be measured in several methods. The first approach is to use the conditional entropy:
 	$$
 	x^*=\arg \max_{x^{(i)} \in \mathcal{U}} -\Sigma_{y\in Y}P_\theta(y \lvert x^{(i)})\log(P_\theta(y \lvert x^{(i)}))
 	$$
@@ -87,7 +89,7 @@
 	\subsection{Sensitivity Analysis}
 	Sensitivity analysis uses a selective learning approach to continuously select subsets from the original training dataset during training. At each iteration of the selection algorithm, the NN selects the most informative patterns from the candidate training set using the knowledge it has already learned in the training process. One of the key aspects of a select learning algorithm is its ability to decide on what information should be used for training and what information can be overlooked. During the training process, a classification model might become uncertain about a previously correctly classified instance. In this case the selective learning algorithm must be able to identify the instance to add it back to the training subset. The most informative patterns for classification problems are often found near the decision boundaries, referred to as the region of uncertainty.
 	
-	Sensitivity Analysis Selective Learning Algorithm (SASLA) as proposed by (Engelbrecht, 2001), uses sensitivity analysis to select patterns in the region of a decision boundary. The proximity of patters to decision boundaries are evaluated using first order derivatives of the output units with respect to input units. The patterns that are closest to the decision boundary are determined to be the most informative and are chosen for training. Patterns that have little to no effect on the outputs of a NN are uninformative and patterns that have a strong influence on NN outputs are informative. Pattern informativeness is defined as the sensitivity of the output vector from a NN to small changes in the input vector. 
+	The sensitivity analysis selective learning algorithm as proposed by (Engelbrecht, 2001), uses sensitivity analysis to select patterns in the region of a decision boundary. The proximity of patters to decision boundaries are evaluated using first order derivatives of the output units with respect to input units. The patterns that are closest to the decision boundary are determined to be the most informative and are chosen for training. Patterns that have little to no effect on the outputs of a NN are uninformative and patterns that have a strong influence on NN outputs are informative. Pattern informativeness is defined as the sensitivity of the output vector from a NN to small changes in the input vector. 
 	$$
 	\Phi^{(p)} \doteq \lVert\vec{S}_o^{(p)}\lVert
 	$$
@@ -155,26 +157,24 @@
 	\section{Implementation}\label{I}
 	
 	\subsection{Neural Network}
-	The neural network for the classification and regression problems was implemented in Python using the PyTorch library~\cite{paszke2019pytorch}. The architecture of the NN consists of the input layer, one hidden layer and one output layer. The sigmoid activation function was applied to the hidden and output layers in the NN. The number of units chosen for the hidden were obtained by an overestimation of the optimal number of units. The number of units in the output layer is dependent on the problem the NN is solving. A NN for regression problems will consist of a single unit in the output layer whereas for classification problems with one-hot encoded labels, the number of units in the output layer corresponds to the number of classes in the classification problem. Applying the sigmoid activation function to each node in the output layer of classification problems produces a probability for an input belonging to the class corresponding to the output unit. The class label corresponding to the output unit with the highest probability is assigned to the input instance. The loss function and optimisation algorithm used in the NN architecture is the MSE loss and stochastic gradient descent (SGD) optimisation algorithm. For classification with one-hot encoded labels, the MSE loss is computed for each instance as the average of sum of the squared differences between the network outputs and the corresponding elements of the one-hot vector of the true label. The parameters of the SGD algorithm include the learning rate which controls the step size of weight updates, the momentum term which smooths oscillations in the loss function landscape and accelerates convergence, and the weight decay regularisation parameter. Weight decay is a regularisation technique that prevents overfitting by adding a penalty term to the loss function based on the sum of the squared weights of the model. The loss function with weight decay regularisation takes the general form of:
+	The neural network for the classification and regression problems was implemented in Python using the PyTorch library~\cite{paszke2019pytorch}. The architecture of the NN consists of the input layer, one hidden layer and one output layer. The sigmoid activation function was applied to the hidden and output layers in the NN. The number of units chosen for the hidden layer was obtained by overestimating the optimal number of hidden units. The number of units in the output layer is dependent on the problem that the NN is solving. A NN for regression problems will consist of a single unit in the output layer whereas for classification problems with one-hot encoded labels, the number of units in the output layer corresponds to the number of classes in the classification problem. Applying the sigmoid activation function to each node in the output layer of classification problems produces a probability for an input belonging to the class corresponding to the output unit. The class label corresponding to the output unit with the highest probability is assigned to the input instance. The loss function and optimisation algorithm used in the NN architecture is the MSE loss and stochastic gradient descent (SGD) optimisation algorithm. For classification with one-hot encoded labels, the MSE loss is computed for each instance as the average of sum of the squared differences between the network outputs and the corresponding elements of the one-hot vector of the true label. The parameters of the SGD algorithm include the learning rate which controls the step size of weight updates, the momentum term which smooths oscillations in the loss function landscape and accelerates convergence, and the weight decay regularisation parameter. Weight decay is a regularisation technique that prevents overfitting by adding a penalty term to the loss function based on the sum of the squared weights of the model. The loss function with weight decay regularisation takes the general form of:
 	$$
 	Loss(\boldsymbol{\theta}) = MSE(\boldsymbol{\theta}) + \lambda\lVert\boldsymbol{\theta}\lVert_2^2
 	$$
 	Where $\boldsymbol{\theta}$ is the vector of the model's weights, $\lambda\lVert\boldsymbol{\theta}\lVert_2^2=\Sigma_{i}\boldsymbol{\theta}_i^2$ and $\lambda > 0$ is the weight decay parameter which determines the regularisation strength. Weight decay regularisation penalizes large weights and pushes them towards zero. This manipulates the optimisation algorithm to prefer smaller weights that are more evenly distributed. The weight decay parameter $\lambda$ is problem dependent and requires cross validated hyper parameter tuning to determine the optimal value. The NN was trained on sequential batches of the training data for each epoch or iteration of the training algorithm. Each batch was randomly selected from the full set of training data. The validation set was used to calculate the validation loss for each epoch. 
 	
-	The implementations for the Passive Learning, Uncertainty Sampling and SASLA learning algorithms are described in the following subsections.
-	
 	\subsection{Passive Learning}
-	The training algorithm for the Passive Learning approach involves training the NN on the entire training dataset for a fixed set of epochs. At the beginning of each epoch the training data is randomly shuffled and the model is updated on sequential batches from the training data. For each batch, the loss is computed, backpropogation is performed and the NN model weights are updated using the SGD optimisation algorithm. Once the training epochs have been exhausted the final trained NN model is returned along with the models training history for the training and validation losses for each epoch.
+	The training algorithm for the passive learning (PL) approach involves training the NN on the entire training dataset for a fixed set of epochs. At the beginning of each epoch the training data is randomly shuffled and the model is updated on sequential batches from the training data. For each batch, the loss is computed, backpropogation is performed and the NN model weights are updated using the SGD optimisation algorithm. Once the training epochs have been exhausted the final trained NN model is returned along with the models training history for the training and validation losses for each epoch.
 	
-	A pipeline for the Passive Learning approach was implemented to train the NN for each problem type. The parameters for the pipeline function consists of the NN hyper parameters and two tuples for the training, validation and test splits for the predictor and response variables. Each dataset is unpacked and then converted into tensor objects in preparation for the NN training algorithm. The input and output dimensions for the NN are determined by the shapes of the training data and labels. Two objects for the MSE loss and SGD optimisation algorithms are initialised and passed as parameters to the NN training algorithm. The NN is trained using the training algorithm and the performance of the trained model is evaluated on the test set. The trained NN, the history and the test performance results are returned by the pipeline function.
+	A pipeline for the passive learning approach was implemented to train the NN for each problem type. The parameters for the pipeline function consists of the NN hyper parameters and two tuples for the training, validation and test splits for the predictor and response variables. Each dataset is unpacked and then converted into tensor objects in preparation for the NN training algorithm. The input and output dimensions for the NN are determined by the shapes of the training data and labels. Two objects for the MSE loss and SGD optimisation algorithms are initialised and passed as parameters to the NN training algorithm. The NN is trained using the training algorithm and the performance of the trained model is evaluated on the test set. The trained NN, the history and the test performance results are returned by the pipeline function.
 	
 	\subsection{Uncertainty Sampling}
-	The Uncertainty Sampling approach uses the same training algorithm as the Passive Learning approach, by training numerous times on the expanding training set of uncertain instances. For each iteration of the Uncertainty Sampling algorithm a NN is trained on the entire training set. This trained model is then used to determine the instances in the unlabelled candidate pool with the highest classification or prediction uncertainty. The labels for these uncertain instances are then obtained and are added to the labelled training pool for a NN to be trained on in the next iteration of the algorithm. This process is repeated until the budget for the number of iterations of the algorithm is exceeded. 
+	The uncertainty sampling approach uses the same training algorithm as the passive learning approach, by training numerous times on the expanding training set of uncertain instances. For each iteration of the uncertainty sampling algorithm a NN is trained on the entire training set. This trained model is then used to determine the instances in the unlabelled candidate pool with the highest classification or prediction uncertainty. The labels for these uncertain instances are then obtained and are added to the labelled training pool for a NN to be trained on in the next iteration of the algorithm. This process is repeated until the budget for the number of iterations of the algorithm is exceeded. 
 	
-	The conditional entropy uncertainty measure was implemented for instances from the classification problems. An ensemble of NN models was used to calculate the predictive uncertainty for instances from the regression problems. The instances that have the highest predictive ensemble variance are the most uncertain instances. A budget for the Uncertainty Sampling algorithm was set to 25. The number of instances to sample for each iteration of the algorithm was determined by limiting the maximum number of samples to consider to 80\% of the samples from the training set and dividing this number by 25. The budget and sampling strategy was chosen to prevent the Uncertainty Sampling algorithm from training on the entire training dataset. The initial NN is trained on a randomly sampled subset from the original training set, which becomes the active training set that uncertain instances are added to. Once the budget has been exceeded the training stops and the performance of the final trained model is evaluated on the test set.
+	The conditional entropy uncertainty measure was implemented for instances from the classification problems. An ensemble of NN models was used to calculate the predictive uncertainty for instances from the regression problems. The instances that have the highest predictive ensemble variance are the most uncertain instances. A budget for the uncertainty sampling algorithm was set to 25. The number of instances to sample for each iteration of the algorithm was determined by limiting the maximum number of samples to consider to 80\% of the samples from the training set and dividing this number by 25. The budget and sampling strategy was chosen to prevent the uncertainty sampling algorithm from training on the entire training dataset. The initial NN is trained on a randomly sampled subset from the original training set, which becomes the active training set that uncertain instances are added to. Once the budget has been exceeded the training stops and the performance of the final trained model is evaluated on the test set.
 	
 	\subsection{SASLA}
-	The SASLA approach differs to both the Passive Learning and Uncertainty Sampling approaches by adaptively refining the training subset at each epoch by selecting the instances with the highest informativeness from the candidate training set. As the NN trains it learns which instances have the highest sensitivity in the model outputs with respect to the inputs and learns that these instances are more informative. The SASLA algorithm identifies the instances in the dataset that are close to decision boundaries for classification problems and instances that have substantial output variation for regression problems.
+	The SASLA approach differs to both the passive learning and uncertainty sampling approaches by adaptively refining the training subset at each epoch by selecting the instances with the highest informativeness from the candidate training set. As the NN trains it learns which instances have the highest sensitivity in the model outputs with respect to the inputs and learns that these instances are more informative. The SASLA algorithm identifies the instances in the dataset that are close to decision boundaries for classification problems and instances that have substantial output variation for regression problems.
 	
 	In the beginning of the SASLA algorithm, the entire candidate set of training instances is used as the initial training subset. After each epoch of training, sensitivity analysis on the trained model parameters is conducted to determine the instances with the highest informativeness in the candidate training pool. The informativeness is computed by propagating the instance through the network and measuring the magnitude of the gradient of the outputs with respect to the inputs. This captures how strongly small perturbations in the input influence the network outputs. A threshold, determined by the selection constant $\beta$, is applied to select the most informative subset. Instances that have an informativeness greater than $(1-\beta)$ times the average informativeness of the entire candidate set are kept for training in the next epoch. A conservative choice of $\beta=0.9$ was chosen for the selection constant. The SASLA algorithm terminates when either the MSE loss falls below a specified threshold or the maximum number of epochs have been exhausted. The performance of the final trained model is then evaluated on the test set.
 	
@@ -210,10 +210,10 @@
 		\item \texttt{momentum}: the momentum parameter for the SGD algorithm.
 		\item \texttt{weight\_decay}: the $\lambda$ parameter for the weight decay regularisation approach.
 	\end{itemize}
-	Table~\ref{tab:hyperparameters} lists the NN architecture and the hyper parameters that were obtained for each problem from the grid search cross validation algorithm. These hyper parameter values were used with the Passive Learning, Uncertainty Sampling and SASLA algorithms as described in Section~\ref{I} to train the NN models for each classification and regression problem.
+	Table~\ref{tab:hyperparameters} lists the NN architecture and the hyper parameters that were obtained for each problem from the grid search cross validation algorithm. These hyper parameter values were used with the passive learning, uncertainty sampling and SASLA algorithms as described in Section~\ref{I} to train the NN models for each classification and regression problem.
 	\begin{table*}[!t]
 		\centering
-		\caption{The hyper parameters for Passive Learning, Uncertainty Sampling and SASLA experiments}
+		\caption{The hyper parameters for passive learning, uncertainty sampling and SASLA experiments}
 		\label{tab:hyperparameters}
 		\begin{tabular}{L{3cm}L{1.8cm}L{2.5cm}L{1.5cm}L{1.5cm}L{1.5cm}L{1.5cm}L{1.5cm}}
 			\hline
@@ -234,7 +234,7 @@
 	
 	The performance metrics considered for the regression problems were the mean squared error (MSE), root mean squared error (RMSE), mean absolute error (MAE) and the R-squared value. The MSE calculates the average of the squared differences between predicted and actual values, where larger errors are penalize heavily by the squaring function. The RMSE is the square root of MSE, providing an error metric in the same units as the target variable. The MAE measures the average absolute value of the difference between predictions and actual values, and is more robust to outliers. The R-squared value indicates the proportion of variance in the dependent variable that is explained by the NN. The R-squared value ranges from 0 to 1, with values closer to 1 indicating a better model fit and predictive power.
 	
-	The results for each training algorithm, Passive Learning, Uncertainty Sampling and SASLA, were recorded over multiple independent training runs. Ten independent NN models were trained for each learning approach and each problem dataset. The results from these independent runs were recorded and the averages of these results were used for the non-parametric statistical comparison tests and ranking approaches. The number of independent runs was selected to balance computational cost with the normality assumption, ensuring an accurate comparison of the means.
+	The results for each training algorithm, passive learning, uncertainty sampling and SASLA, were recorded over multiple independent training runs. Ten independent NN models were trained for each learning approach and each problem dataset. The results from these independent runs were recorded and the averages of these results were used for the non-parametric statistical comparison tests and ranking approaches. The number of independent runs was selected to balance computational cost with the normality assumption, ensuring an accurate comparison of the means.
 	
 	\subsection{Statistical Tests}
 	The non-parametric statistical comparison tests were all conducted at an alpha level of $\alpha=0.05$. The Friedman test was used to determine whether a significant difference in the performance of a set of algorithms exists. The F1 scores from the classification problems were used to compare the multiple learning algorithms with the Friedman statistical test. For the regression problems, the R-squared scores were used for the statistical comparison tests. The null and alternative hypotheses for the Friedman test are:
@@ -247,9 +247,9 @@
 	The number of wins, losses and ties were calculated for each algorithm based on each performance metric. These wins, losses and ties were calculated by conducting a systematic pairwise comparison using paired t-tests. Each active learning method was compared against the passive learning benchmark across all datasets and performance measures. For each dataset the performance values from multiple independent runs were subjected to a paired one-tailed t-test. The outcomes of the tests were classified as follows: A win was assigned if the active learning method was statistically significantly better than the benchmark at a significance level of $\alpha=0.05$; a loss was assigned if the active learning method was significantly worse; and a tie was assigned if there was no statistical significant difference between the two algorithms. This procedure was repeated for all datasets and performance measures, and the counts of each outcomes were aggregated into a final table of performance results.
 	
 	\section{Results \& Discussion}\label{RD}
-	The test results for the classification and regression performance of the Passive Learning, Uncertainty Sampling and SASLA algorithms are tabulated in Table~\ref{tab:classification_results} and \ref{tab:regression_results} respectively. These results show the average performances for each algorithm across all datasets. 
+	The test results for the classification and regression performance of the passive learning, uncertainty sampling and SASLA algorithms are tabulated in Table~\ref{tab:classification_results} and \ref{tab:regression_results} respectively. These results show the average performances for each algorithm across all datasets. 
 	
-	The performances of the learning algorithms on the classification datasets do not differ substantially and there was no clear algorithm which consistently performed the best. The results in Table~\ref{tab:classification_results} show that each learning algorithm performed better than the other algorithms for certain datasets according to the average F1 scores. For example, SASLA achieved the best F1 score on the Breast Cancer dataset, while Passive Learning performed best on Mobile Price, and Uncertainty Sampling was superior on the Letter Recognition dataset. This suggests that the benefits of each strategy are dataset-dependent rather than universally applicable. The highlighted F1 scores represent the highest performing algorithm for each dataset.
+	The performances of the learning algorithms on the classification datasets do not differ substantially and there was no clear algorithm which consistently performed the best. The results in Table~\ref{tab:classification_results} show that each learning algorithm performed better than the other algorithms for certain datasets according to the average F1 scores. For example, SASLA achieved the best F1 score on the Breast Cancer dataset, while passive learning performed best on the Mobile Price dataset, and uncertainty sampling was superior on the Letter Recognition dataset. This suggests that the benefits of each strategy are dataset-dependent. The highlighted F1 scores represent the highest performing algorithm for each dataset. The uncertainty sampling test results achieved the best stability alongside competitive results when compared against the other approaches. This reinforces uncertainty sampling as a viable strategy for problems with limited data availability. 
 	
 	\begin{table}[htbp]
 		\centering
@@ -258,28 +258,28 @@
 		\resizebox{\columnwidth}{!}{%
 		\begin{tabular}{llllll}
 			\hline
-			\textbf{Problem} & \textbf{Algorithm} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1 Score} \\
+			\textbf{Problem} & & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1 Score} \\
 			\hline
 			\multirow{3}{*}{Breast Cancer}
-			& Passive     & 0.9842 $\pm$ 0.0035 & 1.0000 $\pm$ 0.0000 & 0.9571 $\pm$ 0.0095 & 0.9781 $\pm$ 0.0049\\
-			& Uncertainty & 0.9833 $\pm$ 0.0026 & 1.0000 $\pm$ 0.0000 & 0.9548 $\pm$ 0.0071 & 0.9768 $\pm$ 0.0037 \\
+			& PL   & 0.9842 $\pm$ 0.0035 & 1.0000 $\pm$ 0.0000 & 0.9571 $\pm$ 0.0095 & 0.9781 $\pm$ 0.0049\\
+			& US & 0.9833 $\pm$ 0.0026 & 1.0000 $\pm$ 0.0000 & 0.9548 $\pm$ 0.0071 & 0.9768 $\pm$ 0.0037 \\
 			& SASLA       & 0.9868 $\pm$ 0.0044 & 1.0000 $\pm$ 0.0000 & 0.9643 $\pm$ 0.0119 & \textbf{0.9818 $\pm$ 0.0062}  \\
 			\hline
 			\multirow{3}{*}{Mobile Price} 
-			& Passive     & 0.8053 $\pm$ 0.0144 & 0.8483 $\pm$ 0.0156 & 0.8469 $\pm$ 0.0101 & \textbf{0.8461 $\pm$ 0.0132} \\
-			& Uncertainty & 0.8012 $\pm$ 0.0093 & 0.8502 $\pm$ 0.0077 & 0.8444 $\pm$ 0.0075 & 0.8408 $\pm$ 0.0113 \\
+			& PL    & 0.8053 $\pm$ 0.0144 & 0.8483 $\pm$ 0.0156 & 0.8469 $\pm$ 0.0101 & \textbf{0.8461 $\pm$ 0.0132} \\
+			& US & 0.8012 $\pm$ 0.0093 & 0.8502 $\pm$ 0.0077 & 0.8444 $\pm$ 0.0075 & 0.8408 $\pm$ 0.0113 \\
 			& SASLA       & 0.8055 $\pm$ 0.0103 & 0.8531 $\pm$ 0.0103 & 0.8484 $\pm$ 0.0074 & 0.8457 $\pm$ 0.0095 \\
 			\hline
 			\multirow{3}{*}{Letter Recognition} 
-			& Passive     & 0.7567 $\pm$ 0.0029 & 0.7785 $\pm$ 0.0038 & 0.7552 $\pm$ 0.0029 & 0.7530 $\pm$ 0.0034 \\
-			& Uncertainty & 0.7636 $\pm$ 0.0023 & 0.7822 $\pm$ 0.0039 & 0.7623 $\pm$ 0.0023 & \textbf{0.7614 $\pm$ 0.0027} \\
+			& PL     & 0.7567 $\pm$ 0.0029 & 0.7785 $\pm$ 0.0038 & 0.7552 $\pm$ 0.0029 & 0.7530 $\pm$ 0.0034 \\
+			& US & 0.7636 $\pm$ 0.0023 & 0.7822 $\pm$ 0.0039 & 0.7623 $\pm$ 0.0023 & \textbf{0.7614 $\pm$ 0.0027} \\
 			& SASLA       & 0.7560 $\pm$ 0.0032 & 0.7784 $\pm$ 0.0027 & 0.7545 $\pm$ 0.0032 & 0.7524 $\pm$ 0.0032 \\
 			\hline
 		\end{tabular}
 	}
 	\end{table}
 	
-	Analysing the regression results reveals a similar pattern. No single learning algorithm consistently achieved the best performance across all datasets, as shown in Table~\ref{tab:regression_results}. Passive Learning achieved the highest R-squared value on the Boston Housing and Abalone datasets. Uncertainty Sampling obtained the best R-squared score on the Concrete Compressive Strength dataset, suggesting that it was better suited for the problem. The SASLA algorithm, while competitive, did not clearly outperform the other methods but maintained a performance that was competitive to the other scores. The Uncertainty Sampling algorithm performed the worst on the Abalone Age problem, which was the most complex problem. This suggests that Uncertainty Sampling is better suited to simpler regression tasks instead of complex ones.
+	Analysing the regression results reveals a similar pattern. No single learning algorithm consistently achieved the best performance across all datasets, as shown in Table~\ref{tab:regression_results}. Passive learning achieved the highest R-squared value on the Boston Housing and Abalone datasets. Uncertainty sampling obtained the best R-squared score on the Concrete Compressive Strength dataset, suggesting that it was better suited for the problem. The SASLA algorithm, while competitive, did not clearly outperform the other methods but maintained a performance that was competitive to the other scores. The uncertainty sampling showed th best stability in results for the two simpler regression problems, while still achieving competitive results. However, the uncertainty sampling algorithm performed the worst on the more complex Abalone Age problem with a much less stable result. This suggests that uncertainty sampling is better suited to simpler regression tasks instead of complex ones. 
 	
 	\begin{table}[htbp]
 		\centering
@@ -288,21 +288,21 @@
 		\resizebox{\columnwidth}{!}{%
 		\begin{tabular}{llllll}
 			\hline
-			\textbf{Problem} & \textbf{Algorithm} & \textbf{MSE} & \textbf{RMSE} & \textbf{MAE} & \textbf{R-squared} \\
+			\textbf{Problem} &  & \textbf{MSE} & \textbf{RMSE} & \textbf{MAE} & \textbf{R-squared} \\
 			\hline
 			\multirow{3}{*}{Boston Housing}
-			& Passive     & 0.0062 $\pm$ 0.0004 & 0.0789 $\pm$ 0.0023 & 0.0515 $\pm$ 0.0019 & \textbf{0.8279 $\pm$ 0.0101} \\
-			& Uncertainty & 0.0066 $\pm$ 0.0003 & 0.0813 $\pm$ 0.0019 & 0.0548 $\pm$ 0.0011 & 0.8176 $\pm$ 0.0089 \\
+			& PL    & 0.0062 $\pm$ 0.0004 & 0.0789 $\pm$ 0.0023 & 0.0515 $\pm$ 0.0019 & \textbf{0.8279 $\pm$ 0.0101} \\
+			& US & 0.0066 $\pm$ 0.0003 & 0.0813 $\pm$ 0.0019 & 0.0548 $\pm$ 0.0011 & 0.8176 $\pm$ 0.0089 \\
 			& SASLA       & 0.0069 $\pm$ 0.0008 & 0.0828 $\pm$ 0.0047 & 0.0564 $\pm$ 0.0050 & 0.8099 $\pm$ 0.0221 \\
 			\hline
 			\multirow{3}{*}{Concrete Strength} 
-			& Passive     & 0.0070 $\pm$ 0.0023 & 0.0828 $\pm$ 0.0117 & 0.0641 $\pm$ 0.0091 & 0.8250 $\pm$ 0.0566 \\
-			& Uncertainty & 0.0062 $\pm$ 0.0005 & 0.0784 $\pm$ 0.0029 & 0.0612 $\pm$ 0.0030 & \textbf{0.8461 $\pm$ 0.0117} \\
+			& PL     & 0.0070 $\pm$ 0.0023 & 0.0828 $\pm$ 0.0117 & 0.0641 $\pm$ 0.0091 & 0.8250 $\pm$ 0.0566 \\
+			& US & 0.0062 $\pm$ 0.0005 & 0.0784 $\pm$ 0.0029 & 0.0612 $\pm$ 0.0030 & \textbf{0.8461 $\pm$ 0.0117} \\
 			& SASLA       & 0.0063 $\pm$ 0.0008 & 0.0792 $\pm$ 0.0048 & 0.0611 $\pm$ 0.0035 & 0.8424 $\pm$ 0.0199 \\
 			\hline
 			\multirow{3}{*}{Abalone Age} 
-			& Passive     & 0.0065 $\pm$ 0.0001 & 0.0808 $\pm$ 0.0006 & 0.0589 $\pm$ 0.0010 & \textbf{0.5274 $\pm$ 0.0067} \\
-			& Uncertainty & 0.0071 $\pm$ 0.0004 & 0.0841 $\pm$ 0.0024 & 0.0642 $\pm$ 0.0043 & 0.4869 $\pm$ 0.0292 \\
+			& PL     & 0.0065 $\pm$ 0.0001 & 0.0808 $\pm$ 0.0006 & 0.0589 $\pm$ 0.0010 & \textbf{0.5274 $\pm$ 0.0067} \\
+			& US & 0.0071 $\pm$ 0.0004 & 0.0841 $\pm$ 0.0024 & 0.0642 $\pm$ 0.0043 & 0.4869 $\pm$ 0.0292 \\
 			& SASLA       & 0.0065 $\pm$ 0.0000 & 0.0808 $\pm$ 0.0003 & 0.0587 $\pm$ 0.0013 & 0.5268 $\pm$ 0.0031 \\
 			\hline
 		\end{tabular}
@@ -314,20 +314,20 @@
 	\begin{figure}[htbp]
 		\centering
 		\includegraphics[width=\linewidth]{plots/classification_boxplots.pdf}
-		\caption{Classification results boxplots for Passive Learning (PL), Uncertainty Sampling (US) and SASLA.}
+		\caption{Classification results boxplots for passive learning, uncertainty sampling and SASLA.}
 		\label{fig:classification_boxplots}
 	\end{figure}
 	
-	Noticeable variations across the regression boxplots in Figure~\ref{fig:regression_boxplots} can be seen. The R-squared boxplot for Uncertainty Sampling has a longer tail than the other learning algorithms, indicating the results for Uncertainty Sampling contained smaller minimum values. This suggests that the Uncertainty Sampling algorithm has the potential to perform worse than the other learning algorithms for more complex regression problems.  
+	Noticeable variations across the regression boxplots in Figure~\ref{fig:regression_boxplots} can be seen. The R-squared boxplot for uncertainty sampling has a longer tail than the other learning algorithms, indicating the results for uncertainty sampling contained smaller minimum values. This suggests that the uncertainty sampling algorithm has the potential to perform worse than the other learning algorithms for more complex regression problems.  
 	
 	\begin{figure}[htbp]
 		\centering
 		\includegraphics[width=\linewidth]{plots/regression_boxplots.pdf}
-		\caption{Regression results boxplots for Passive Learning (PL), Uncertainty Sampling (US) and SASLA.}
+		\caption{Regression results boxplots for passive learning, uncertainty sampling and SASLA.}
 		\label{fig:regression_boxplots}
 	\end{figure}
 	
-	Figure~\ref{fig:uncertainty_sampling_all} represents the average F1 and R-squared scores for the Uncertainty Sampling as the size of the training set increases. The average scores and their error bars are plotted at for each sampling interval of the Uncertainty Sampling algorithm. The blue plots represent the classification problem datasets and the red plots represent the regression problem datasets. A general trend can be seen with the performance scores increases as the size of the training set increases. The plot in Figure~\ref{fig:mp_uncertainty_sampling} stands out as the F1 score initially decreased when the new uncertain instances were added to the training set before and increased after more than 1,000 samples were added to the training set. Figure~\ref{fig:bc_uncertainty_sampling} shows how quickly the Uncertainty Sampling algorithm converged to a stable F1 score. The algorithm required substantially fewer training instances to achieve a level of performance that is comparable to Passive Learning and SASLA approaches. This further highlights the advantage computational advantage of Uncertainty Sampling requiring fewer training instances.
+	Figure~\ref{fig:uncertainty_sampling_all} represents the average F1 and R-squared scores for the uncertainty sampling as the size of the training set increases. The average scores and their error bars are plotted at for each sampling interval of the uncertainty sampling algorithm. The blue plots represent the classification problem datasets and the red plots represent the regression problem datasets. A general trend can be seen with the performance scores increases as the size of the training set increases. The plot in Figure~\ref{fig:mp_uncertainty_sampling} stands out as the F1 score initially decreased when the new uncertain instances were added to the training set before and increased after more than 1,000 samples were added to the training set. Figure~\ref{fig:bc_uncertainty_sampling} shows how quickly the uncertainty sampling algorithm converged to a stable F1 score. The algorithm required substantially fewer training instances to achieve a level of performance that is comparable to passive learning and SASLA approaches. This further highlights the advantage computational advantage of uncertainty sampling requiring fewer training instances.
 	
 	\begin{figure}[htbp]
 		\centering
@@ -360,11 +360,11 @@
 			\includegraphics[width=0.45\linewidth]{plots/abalone_age_uncertainty_sampling.pdf}
 			\label{fig:aa_uncertainty_sampling}
 		}
-		\caption{The Uncertainty Sampling performance results over time as the training subset increases.}
+		\caption{The uncertainty sampling performance results over time as the training subset increases.}
 		\label{fig:uncertainty_sampling_all}
 	\end{figure}
 	
-	The error bars at each selection interval follows a general convergence trend where the average performance scores become more stable as more samples are added to the training set. The results in Figure~\ref{fig:aa_uncertainty_sampling} do not follow this trend which is explained by the complexity of problem. This provides reason to suggest that Uncertainty Sampling does not perform well for complex regression tasks and should instead be considered for classification tasks where resources such as compute and training data are limited.
+	The error bars at each selection interval follows a general convergence trend where the average performance scores become more stable as more samples are added to the training set. The results in Figure~\ref{fig:aa_uncertainty_sampling} do not follow this trend which is explained by the complexity of problem. This provides reason to suggest that uncertainty sampling does not perform well for complex regression tasks and should instead be considered for classification tasks where resources such as compute and training data are limited.
 	
 	Figure~\ref{fig:sasla_selection_all} represents the pattern selection over time for the SASLA algorithm across the six different datasets. Each point in the plots represent the size of the sampled training set from the candidate set that was deemed to have informative patterns by the SASLA selection algorithm. A somewhat general trend can be seen in the plots where the size of the sampled patterns from the candidate set decreases over time for each epoch. This trend however is not consistent among all datasets and some problems sample more data than previous iterations as seen in Figures~\ref{fig:bh_sasla_selection} and \ref{fig:ccs_sasla_selection}. 
 	\begin{figure}[htbp]
@@ -402,12 +402,33 @@
 		\label{fig:sasla_selection_all}
 	\end{figure}
 	
-	Another noticeable insight to the SASLA algorithm is that it tended to select fewer patterns for the simpler problems than the more complex problems. The pattern selections for the simple problems, shown in Figures~\ref{fig:bc_sasla_selection} and \ref{fig:bh_sasla_selection}, show an immediate decrease in the number of patterns considered for training. This is a stark contrast to the pattern selection plots in Figures~\ref{fig:lr_sasla_selection} and \ref{fig:aa_sasla_selection} for the complex problems. The number of selected patterns initially decreased before rapidly increasing again and stabilising after a few iterations. This indicates that the SASLA algorithm could not differentiate between uninformative and informative patterns for complex problems. Instead, the SASLA algorithm identified a large portion of the candidate training set as informative, indicating that NN model is unsure about most of the predictions it generates.
+	Another noticeable insight to the SASLA algorithm is that it tended to select fewer patterns for the simpler problems than the more complex problems. The pattern selections for the simple problems, shown in Figures~\ref{fig:bc_sasla_selection} and \ref{fig:bh_sasla_selection}, show an immediate decrease in the number of patterns considered for training. This is a stark contrast to the pattern selection plots in Figures~\ref{fig:lr_sasla_selection} and \ref{fig:aa_sasla_selection} for the complex problems. The number of selected patterns initially decreased before they rapidly increased again and stabilised after a few iterations. This indicates that the SASLA algorithm could not differentiate between uninformative and informative patterns for complex problems. Instead, the SASLA algorithm identified a large portion of the candidate training set as informative, indicating that NN model is unsure about most of the predictions it generates.
 	
-	\textbf{TODO: EXPLAIN STATISTICAL TESTS}
+	The Friedman statistical test for the F1 and R-squared scores of the learning algorithms were conducted at a significance level of $\alpha=0.05$. If the Friedman test identified a significant difference between the algorithms performances then the Nemenyi post-hoc test was performed to identify the significant differences. The results for the Friedman tests for both the classification and regression problem performances had a p-value of $p=0.716531$. This p-value is far greater than the significance level $\alpha$, $0.716531 \gg 0.05$. Therefore, there was no statistically significant difference between the performances of the learning algorithms and the null hypothesis was accepted. 
+	
+	The critical difference plots for the classification and regression performances are shown in Figures~\ref{fig:classification_cd} and \ref{fig:regression_cd} respectively. These plots were generated using the average ranks of the algorithms performances and the pairwise Wilcoxon signed-rank tests to determine the critical difference. The horizontal bar in the critical difference plots connects the algorithms that had no significant differences. The passive learning algorithm consistently ranked lowest in the critical difference plots for both problems. 
+	
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=\linewidth]{plots/classification_critical_difference.pdf}
+		\caption{Critical difference plot for the average ranks of the learning algorithms performance for the classification problems}
+		\label{fig:classification_cd}
+	\end{figure}
+	
+	Figure~\ref{fig:classification_cd} shows that the SASLA algorithm ranked lower than the uncertainty sampling algorithm for the classification problems. Figure~\ref{fig:regression_cd}, however, shows that the uncertainty sampling algorithm ranked lower than SASLA for the regression problems. This suggests that the SASLA algorithm should be considered over the uncertainty sampling algorithm for classification problems and uncertainty sampling should be considered for regression problems over the SASLA algorithm. 
+	
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=\linewidth]{plots/regression_critical_difference.pdf}
+		\caption{Critical difference plot for the average ranks of the learning algorithms performance for the regression problems}
+		\label{fig:regression_cd}
+	\end{figure}
+	
+	The results in Tables~\ref{tab:classification_wtl} and \ref{tab:regression_wtl} represent the number of classification and regression datasets on which the uncertainty sampling and SASLA algorithms win, tie or lose compared to the passive learning baseline. These results were calculated by conducting a pairwise comparison using paired t-tests for every performance metric of each problem. A win or loss is assigned if an algorithm performed significantly better or worse than the baseline, otherwise a tie is assigned for no significant difference. The results in Table~\ref{tab:classification_wtl} represent the classification wins, ties and losses. The uncertainty sampling algorithm performed significantly better than passive learning on one of the classification datasets and tied on the rest. The SASLA algorithm tied with the passive learning algorithm on all classification datasets.
+	
 	\begin{table}[htbp]
 		\centering
-		\caption{The number of classification datasets on which Uncertainty Sampling and SASLA significantly Win (W), Tie (T), or Lose (L) compared to the Passive Learning baseline}
+		\caption{The number of classification datasets on which uncertainty sampling and SASLA significantly Win (W), Tie (T), or Lose (L) compared to the passive learning baseline}
 		\label{tab:classification_wtl}
 		\begin{tabular}{lcccc}
 			\hline
@@ -421,10 +442,11 @@
 		\end{tabular}
 	\end{table}
 	
+	Neither the uncertainty sampling or SASLA algorithms won against the passive learning baseline for the regression problems. The uncertainty sampling algorithm lost twice for and drew once. The SASLA algorithm drew twice and lost once. 
 	
 	\begin{table}[htbp]
 		\centering
-		\caption{The number of regression datasets on which Uncertainty Sampling and SASLA significantly Win (W), Tie (T), or Lose (L) compared to the Passive Learning baseline}
+		\caption{The number of regression datasets on which uncertainty sampling and SASLA significantly Win, Tie, or Lose compared to the passive learning baseline}
 		\label{tab:regression_wtl}
 		\begin{tabular}{lcccc}
 			\hline
@@ -438,22 +460,16 @@
 		\end{tabular}
 	\end{table}
 	
-	\begin{figure}[htbp]
-		\centering
-		\includegraphics[width=\linewidth]{plots/classification_critical_difference.pdf}
-		\caption{Critical difference plot for the average ranks of the learning algorithms performance for the classification problems}
-		\label{fig:classification_cd}
-	\end{figure}
+	The results from the non-parametric statistical tests showed that there were no significant differences between the performances of the three algorithms. The parametric pairwise comparison t-tests, however, were able to identify significant differences between the baseline passive learning and the uncertainty sampling and SASLA algorithms in the forms of wins, losses and ties. The results from both statistical tests agree that the passive learning algorithm was overall the better performing algorithm. The passive learning algorithm had the lowest ranks in both critical difference plots and only lost once in the pairwise comparison t-tests. 
 	
-	\begin{figure}[htbp]
-		\centering
-		\includegraphics[width=\linewidth]{plots/regression_critical_difference.pdf}
-		\caption{Critical difference plot for the average ranks of the learning algorithms performance for the regression problems}
-		\label{fig:regression_cd}
-	\end{figure}
+	\section{Conclusion}\label{C}
+	This assignment evaluated the performance of passive learning, uncertainty sampling and SASLA across multiple classification and regression problems of varying complexity. The results demonstrated that there was no single algorithm that consistently outperformed the others across all datasets. The benefits for each approach were determined to be problem dependent.
 	
-	\section{Conclusions}\label{C}
-
+	All three learning algorithms achieved competitive performance for the classification problems. Uncertainty sampling and SASLA occasionally outperformed passive learning on certain datasets. The statistical tests however concluded that there was no statistically significant difference between the algorithms. For the regression tasks, passive learning provided more consistent perform across the varying complexity of problems where methods such as uncertainty sampling struggled with the more complex problems. SASLA proved capable of generating competitive performance for all problems, however did not demonstrate a clear advantage over passive learning where its pattern selection mechanism required larger subsets of data for more complex problems. 
+	
+	The statistical tests confirmed that the observed performance differences were not significant. Non-parametric tests indicated that no algorithm clearly performed better than the other algorithms. The pairwise comparisons highlighted wins and losses for uncertainty sampling and SASLA against the baseline passive learning. The results from these comparisons were mostly in favour of passive learning algorithm.
+	
+	The active learning strategies such as uncertainty sampling and SASLA have potential to offer advantages in certain cases, however they do not guarantee consistent improvements over the passive learning baseline.
 	
 	\begin{thebibliography}{00}
 		\bibitem{github} KellenMossner, ``Assignment-3,'' \textit{GitHub}, 2025. [Online]. Available: https://github.com/KellenMossner/MachineLearning441/tree/main/Assignment-3. [Accessed: Oct. 1, 2025].
