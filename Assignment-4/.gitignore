@@ -5,3 +5,4 @@ data
 *.aux
 *.synctex.gz
 *.cls
+*.pdf
